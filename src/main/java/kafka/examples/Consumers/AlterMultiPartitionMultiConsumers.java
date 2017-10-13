@@ -11,12 +11,10 @@ import java.util.Properties;
 /**
  * Created by PravinKumar on 13/10/17.
  */
+public class AlterMultiPartitionMultiConsumers {
 
-/* Topic:inputtopicCon Partition:1  Consumer:3 */
-public class SinglePartitionMultiConsumers {
-
-    public static final String CONSUMER_GROUP_ID = "singlepartitionmulticonsumer1";
-    public static String INPUT_TOPIC = "inputtopicCon";
+    public static final String CONSUMER_GROUP_ID = "altermultipartitionmulticonsumer";
+    public static String INPUT_TOPIC = "inputtopicalt";
     public static void main(String[] args) throws InterruptedException {
         consumerOutput();
     }
@@ -28,10 +26,10 @@ public class SinglePartitionMultiConsumers {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, Serdes.String().deserializer().getClass().getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_ID);
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG,10);
+        properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG,100);
         //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C1");
         //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C2");
-        //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C3");
+        properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C3");
 
         return properties;
     }
@@ -43,7 +41,7 @@ public class SinglePartitionMultiConsumers {
         consumer.subscribe(Collections.singleton(INPUT_TOPIC));
         while (true) {
             Thread.sleep(5_000);
-            consumer.poll(Long.MAX_VALUE).forEach(ConsumerRecord -> System.out.println("Key : " + ConsumerRecord.key() + "Value : " + ConsumerRecord.value()));
+            consumer.poll(Long.MAX_VALUE).forEach(ConsumerRecord -> System.out.println("Partition :"+ ConsumerRecord.partition() +"------------"+"Key : " + ConsumerRecord.key() +"------------"+ "Value : " + ConsumerRecord.value()));
         }
 
     }
