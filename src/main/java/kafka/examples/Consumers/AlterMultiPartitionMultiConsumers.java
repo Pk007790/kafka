@@ -8,13 +8,18 @@ import org.apache.kafka.common.serialization.Serdes;
 import java.util.Collections;
 import java.util.Properties;
 
+/* Topic:inputtopicmul Partition:5  Consumer:3
+*   Partitions altered from 5 to 10
+* */
+
 /**
  * Created by PravinKumar on 13/10/17.
  */
+
 public class AlterMultiPartitionMultiConsumers {
 
-    public static final String CONSUMER_GROUP_ID = "altermultipartitionmulticonsumer";
-    public static String INPUT_TOPIC = "inputtopicalt";
+    public static final String CONSUMER_GROUP_ID = "altermultipartitionmulticonsumer2";
+    public static String INPUT_TOPIC = "inputtopicalt2";
     public static void main(String[] args) throws InterruptedException {
         consumerOutput();
     }
@@ -27,9 +32,11 @@ public class AlterMultiPartitionMultiConsumers {
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, CONSUMER_GROUP_ID);
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG,100);
-        //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C1");
+        properties.put(ConsumerConfig.METADATA_MAX_AGE_CONFIG,10000);
+        properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C1");
         //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C2");
-        properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C3");
+        //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C3");
+        //properties.put(ConsumerConfig.CLIENT_ID_CONFIG,"C4");
 
         return properties;
     }
